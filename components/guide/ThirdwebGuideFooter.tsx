@@ -18,7 +18,7 @@ export default function ThirdwebGuideFooter() {
         role="button"
         onClick={() =>
           window.open(
-            "https://github.com/thirdweb-example/token-drop",
+            "https://github.com/NFTEarth",
             "_blank"
           )
         }

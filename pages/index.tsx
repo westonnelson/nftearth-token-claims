@@ -16,8 +16,8 @@ import styles from "../styles/Home.module.css";
 import { parseIneligibility } from "../utils/parseIneligibility";
 
 const Home = () => {
-  const tokenAddress = "0x03728725240b021887355c943d040BF933F3d5F0";
-  const { contract } = useContract(tokenAddress, "token-drop");
+  const tokenAddress = "0x01CF12BBD77F38Fa6859193391dF6555F976d1F3";
+  const { contract } = useContract(tokenAddress, "0x9ae98CC8C98E5E0A05Fb846BF1D9902833e90333");
   const address = useAddress();
   const [quantity, setQuantity] = useState(1);
   const { data: contractMetadata } = useContractMetadata(contract);
@@ -39,7 +39,7 @@ const Home = () => {
     try {
       return BigNumber.from(activeClaimCondition.data?.availableSupply || 0);
     } catch {
-      return BigNumber.from(1_000_000_000);
+      return BigNumber.from(100_000_000);
     }
   }, [activeClaimCondition.data?.availableSupply]);
 
@@ -51,7 +51,7 @@ const Home = () => {
     const n = totalAvailableSupply.add(
       BigNumber.from(claimedSupply.data?.value || 0)
     );
-    if (n.gte(1_000_000_000)) {
+    if (n.gte(100_000_000)) {
       return "";
     }
     return n.toString();
@@ -81,7 +81,7 @@ const Home = () => {
         activeClaimCondition.data?.maxClaimableSupply || 0
       );
     } catch (e) {
-      bnMaxClaimable = BigNumber.from(1_000_000_000);
+      bnMaxClaimable = BigNumber.from(100_000_000);
     }
 
     let perTransactionClaimable;
@@ -90,7 +90,7 @@ const Home = () => {
         activeClaimCondition.data?.maxClaimablePerWallet || 0
       );
     } catch (e) {
-      perTransactionClaimable = BigNumber.from(1_000_000_000);
+      perTransactionClaimable = BigNumber.from(100_000_000);
     }
 
     if (perTransactionClaimable.lte(bnMaxClaimable)) {
@@ -102,7 +102,7 @@ const Home = () => {
     if (snapshotClaimable) {
       if (snapshotClaimable === "0") {
         // allowed unlimited for the snapshot
-        bnMaxClaimable = BigNumber.from(1_000_000_000);
+        bnMaxClaimable = BigNumber.from(100_000_000);
       } else {
         try {
           bnMaxClaimable = BigNumber.from(snapshotClaimable);
@@ -119,8 +119,8 @@ const Home = () => {
       max = bnMaxClaimable;
     }
 
-    if (max.gte(1_000_000_000)) {
-      return 1_000_000_000;
+    if (max.gte(100_000_000)) {
+      return 100_000_000;
     }
     return max.toNumber();
   }, [
@@ -181,9 +181,9 @@ const Home = () => {
         activeClaimCondition.data?.currencyMetadata.value || 0
       );
       if (pricePerToken.eq(0)) {
-        return "Mint (Free)";
+        return "Claim";
       }
-      return `Mint (${priceToMint})`;
+      return `Claim (${priceToMint})`;
     }
     if (claimIneligibilityReasons.data?.length) {
       return parseIneligibility(claimIneligibilityReasons.data, quantity);
@@ -210,13 +210,13 @@ const Home = () => {
         activeClaimCondition.isError) ||
         (activeClaimCondition.data &&
           activeClaimCondition.data.startTime > new Date() && (
-            <p>Drop is starting soon. Please check back later.</p>
+            <p>Claims will be is starting soon. Please check back later.</p>
           ))}
 
       {claimConditions.data?.length === 0 ||
         (claimConditions.data?.every((cc) => cc.maxClaimableSupply === "0") && (
           <p>
-            This drop is not ready to be minted yet. (No claim condition set)
+            This token is not ready to be claimed yet. (No claim condition set)
           </p>
         ))}
 
@@ -236,7 +236,7 @@ const Home = () => {
 
           <h2 className={styles.title}>Claim Tokens</h2>
           <p className={styles.explain}>
-            Claim ERC20 tokens from{" "}
+            Claim NFTE tokens from{" "}
             <span className={styles.pink}>{contractMetadata?.name}</span>
           </p>
         </>
@@ -247,7 +247,7 @@ const Home = () => {
       <div className={styles.claimGrid}>
         <input
           type="number"
-          placeholder="Enter amount to claim"
+          placeholder="Enter your eligible amount to claim"
           onChange={(e) => {
             const value = parseInt(e.target.value);
             if (value > maxClaimable) {

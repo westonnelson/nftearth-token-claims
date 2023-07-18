@@ -22,7 +22,7 @@
   min-width: 3rem;
   font-size: 1rem;
   background: #e5e5ea;
-  background-image: linear-gradient(to left, #cc25b3 0%, #418dff 101.52%);
+  background-image: linear-gradient(to left, #2594cc 0%, #418dff 101.52%);
   color: #fff;
   width: 180px;
   text-align: center;
@@ -35,7 +35,7 @@
 }
 
 .pink {
-  color: #cc25b3;
+  color: #70e82b;
 }
 
 .title {
@@ -100,7 +100,7 @@
 .textInput {
   width: 75%;
   background-color: transparent;
-  border: 1px solid grey;
+  border: 1px solid rgb(190, 137, 137);
   border-radius: 8px;
   color: #fff;
   height: 48px;
